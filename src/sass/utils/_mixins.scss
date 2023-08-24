@@ -1,0 +1,46 @@
+@mixin mobile {
+    @media screen and (min-width: map-get($breakpoints, mobile)) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (min-width: map-get($breakpoints, tablet)) {
+        @content;
+    }
+}
+
+@mixin ordi {
+    @media screen and (min-width: map-get($breakpoints, ordi)) {
+        @content;
+    }
+}
+
+@mixin ordiBurger {
+    @media screen and (min-width: map-get($breakpoints, ordiBurger)) {
+        @content;
+    }
+}
+
+@mixin largeOrdi {
+    @media screen and (min-width: map-get($breakpoints, largeOrdi)) {
+        @content;
+    }
+}
+
+@mixin xlargeOrdi {
+    @media screen and (min-width: map-get($breakpoints, xlargeOrdi)) {
+        @content;
+    }
+}
+
+@mixin shadow {
+    box-shadow: 0px 5px 10px #999;
+}
+
+@mixin display-all {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
