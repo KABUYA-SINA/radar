@@ -1,0 +1,20 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.footer{
+    padding: nth($padding, 4);
+    @include display-row-betw;
+    @include mobile {
+        flex-direction: column;
+    }
+    @include tablet {
+        flex-direction: row;
+    }
+    img{
+        object-fit: cover;
+        height: 100%;
+    }
+    & .footer-one{
+        font-size: 16px;
+    }
+}

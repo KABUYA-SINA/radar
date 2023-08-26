@@ -1,2 +1,62 @@
 @import '../utils/variables';
 @import '../utils/mixins';
+
+.body{
+    height: 100vh;
+    width: 100%;
+    @include display-column-betw;
+    background-size: cover;
+    transition-duration: 1s;
+    & .main{
+        height: 500px;
+        @include display-evenly;
+        padding: nth($padding, 4);
+        @include mobile{
+            flex-direction: column
+        }
+        @include tablet{
+            flex-direction: row;
+        }
+        & .first-main {
+            & .first {
+                h1 {
+                    font-size: 50px;
+                }
+                & .condition {
+                    @include display-colum;
+                    span{
+                        font-size: 16px;
+                    }
+                }
+            }
+            & h2 {
+                font-size: 24px;
+            }
+        }
+        & .second-main{
+            @include display-align;
+            border-radius: 10px;
+            background: $white-color;
+            backdrop-filter: blur(1px);
+            padding: nth($padding, 1)-2;
+            overflow: hidden;
+            & .input{
+                width: 260px;
+                font-size: 20px;
+                padding: nth($padding, 1);
+                color: $orange-color;
+            }
+            & .btn{
+                transform: scale(1);
+                font-size: 30px;
+                cursor: pointer;
+            }
+            & .btn:hover,
+            & .btn:active,
+            & .btn:focus{
+                transform: scale(.9);
+
+            }
+        }
+    }
+}

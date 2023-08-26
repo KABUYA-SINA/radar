@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { TbUserSearch } from 'react-icons/tb';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import sun from '../assets/sun.webp';
+import cloud from '../assets/cloud.webp';
+import rain from '../assets/rain.webp';
+import snow from '../assets/snow.webp';
+import overcast from '../assets/overcast.webp';
+import '../sass/base/_base.scss';
+import '../sass/pages/_home.scss';
 
 const Home = () => {
     const [country, setCountry] = useState('Lyon');
     const [coundtryDetails, setCountryDetails] = useState({})
 
-    const handleCall = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        handleCall();
+    })
+    const handleCall = () => {
         fetch(
             `${process.env.REACT_APP_API_URL}=${country}${process.env.REACT_APP_API_NEXT_ELEMENT}`
         )
@@ -14,6 +26,8 @@ const Home = () => {
                 country: data.location.country,
                 region: data.location.region,
                 city: data.location.name,
+                time: data.location.localtime,
+                continent: data.location.tz_id,
                 farenheit: {
                     current: data.current.temp_f,
                     high: data.forecast.forecastday[0].day.maxtemp_f,
@@ -23,27 +37,45 @@ const Home = () => {
                 image: data.current.condition.icon
             }))
     }
+
     function handleOnchange(e) {
         setCountry(e.target.value)
     }
 
     return (
-        <div className="home">
-            <div className="first-home">
-                <input type='search' value={country} onChange={handleOnchange} />
-                <button onClick={handleCall}>search</button>
-            </div>
-            <div className="second-home">
-                <div className="second-first">
-                    <h1>{coundtryDetails?.farenheit?.current}</h1>
-                    <div className="condition">
-                        <span>{coundtryDetails?.condition}</span>
-                        <span>{coundtryDetails?.farenheit?.high}</span>
-                        <span>{coundtryDetails?.farenheit?.low}</span>
+        <div className='body'
+            style={
+                coundtryDetails.condition?.toLowerCase() === "clear" ||
+                    coundtryDetails.condition?.toLowerCase() === "sun"
+                    ? { background: `center / cover no-repeaturl(${sun})` }
+                    : coundtryDetails.condition?.includes('cloudy')
+                        ? { background: `center / cover no-repeat url(${cloud})` }
+                        : coundtryDetails.condition?.toLowerCase().includes('rain')
+                            ? { background: `center / cover no-repeat url(${rain})` }
+                            : coundtryDetails.condition?.toLowerCase().includes('snow')
+                                ? { background: `center / cover no-repeat url(${snow})` }
+                                : { background: `center / cover no-repeat url(${overcast})` }
+            }
+        >
+            <Header time={coundtryDetails.time} />
+            <main className="main">
+                <div className="first-main">
+                    <div className="first">
+                        <h1>{coundtryDetails.farenheit?.current}° F</h1>
+                        <div className="condition">
+                            <span>{coundtryDetails.condition}</span>
+                            <span>{coundtryDetails.farenheit?.high}° F</span>
+                            <span>{coundtryDetails.farenheit?.low}° F</span>
+                        </div>
                     </div>
+                    <h2>{coundtryDetails.city} {coundtryDetails.country?.toUpperCase()}</h2>
                 </div>
-                <h2>{coundtryDetails?.city} {coundtryDetails?.country}</h2>
-            </div>
+                <div className="second-main">
+                    <input type='search' value={country} onChange={handleOnchange} className='input' />
+                    <TbUserSearch onClick={handleCall} className='btn' />
+                </div>
+            </main>
+            <Footer continent={coundtryDetails.continent} image={coundtryDetails.image} />
         </div>
     )
 }

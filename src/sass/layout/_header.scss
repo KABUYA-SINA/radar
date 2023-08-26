@@ -1,0 +1,36 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.header{
+    padding: nth($padding, 4);
+    & a{
+        @include display-row-betw;
+        color: $black-color;
+        @include mobile{
+            flex-direction: column;
+        }
+        @include tablet{
+            flex-direction: row;
+        }
+        & .header-one{
+            @include display-align;
+            gap: nth($gap, 3);
+            flex: 1;
+            svg{
+                font-size: 50px
+            }
+            h1{
+                text-transform: uppercase;
+                font-size: 32px;
+            }
+        }
+        & .header-second{
+            @include display-end;
+            flex: 1;
+            span{
+                font-size: 16px;
+            }
+
+        }
+    }
+}
