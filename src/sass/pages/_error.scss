@@ -3,6 +3,9 @@
 
 .error{
     @include display-all;
+    height: 100vh;
+    gap: nth($gap, 4)*2.5;
+    padding: nth($padding, 4);
     h1 {
         font-size: 40px;
     }

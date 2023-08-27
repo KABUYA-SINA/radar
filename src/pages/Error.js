@@ -12,7 +12,7 @@ const Error = () => {
         <main className='error'>
             <h1>404</h1>
             <p>
-                Oups! This is not the web page you are lookinf for.
+                Oups! This is not the web page you are looking for.
             </p>
             <Link to='/' onClick={handleClick}>
                 <span className='btn-error'> Please return to Home page</span>

@@ -6,7 +6,10 @@ import sun from '../assets/sun.webp';
 import cloud from '../assets/cloud.webp';
 import rain from '../assets/rain.webp';
 import snow from '../assets/snow.webp';
+import moderate from '../assets/moderate.webp';
 import overcast from '../assets/overcast.webp';
+import light from '../assets/light-rain.webp';
+import drizzle from '../assets/drizzle.webp';
 import '../sass/base/_base.scss';
 import '../sass/pages/_home.scss';
 
@@ -37,7 +40,6 @@ const Home = () => {
                 image: data.current.condition.icon
             }))
     }
-
     function handleOnchange(e) {
         setCountry(e.target.value)
     }
@@ -45,16 +47,25 @@ const Home = () => {
     return (
         <div className='body'
             style={
-                coundtryDetails.condition?.toLowerCase() === "clear" ||
-                    coundtryDetails.condition?.toLowerCase() === "sun"
-                    ? { background: `center / cover no-repeaturl(${sun})` }
+                coundtryDetails.condition?.includes("Clear") ||
+                    coundtryDetails.condition?.includes("Sunny")
+                    ? { background: `center / cover no-repeat url(${sun})` }
                     : coundtryDetails.condition?.includes('cloudy')
                         ? { background: `center / cover no-repeat url(${cloud})` }
-                        : coundtryDetails.condition?.toLowerCase().includes('rain')
+                        : coundtryDetails.condition?.includes('Heavy rain') ||
+                            coundtryDetails.condition?.includes('heavy rain shower')
                             ? { background: `center / cover no-repeat url(${rain})` }
-                            : coundtryDetails.condition?.toLowerCase().includes('snow')
-                                ? { background: `center / cover no-repeat url(${snow})` }
-                                : { background: `center / cover no-repeat url(${overcast})` }
+                            : coundtryDetails.condition?.includes('Light rain')
+                                ? { background: `center / cover no-repeat url(${light})` }
+                                : coundtryDetails.condition?.includes('Moderate rain')
+                                    ? { background: `center / cover no-repeat url(${moderate})` }
+                                    : coundtryDetails.condition?.includes('Overcast')
+                                        ? { background: `center / cover no-repeat url(${overcast})` }
+                                        : coundtryDetails.condition?.includes('drizzle')
+                                            ? { background: `center / cover no-repeat url(${drizzle})` }
+                                            : coundtryDetails.condition?.toLowerCase() === ('snow')
+                                                ? { background: `center / cover no-repeat url(${snow})` }
+                                                : { background: `center / cover no-repeat url(${overcast})` }
             }
         >
             <Header time={coundtryDetails.time} />
