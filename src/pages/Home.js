@@ -16,13 +16,16 @@ import '../sass/pages/_home.scss';
 const Home = () => {
     const [country, setCountry] = useState('Lyon');
     const [coundtryDetails, setCountryDetails] = useState({})
+    const [initialCountry, setInitialCountry] = useState('Paris')
+    const [celsius, setCelsius] = useState('');
 
     useEffect(() => {
         handleCall();
+        handleCelsiusChange();
     })
     const handleCall = () => {
         fetch(
-            `${process.env.REACT_APP_API_URL}=${country}${process.env.REACT_APP_API_NEXT_ELEMENT}`
+            `${process.env.REACT_APP_API_URL}=?${country}:${initialCountry}${process.env.REACT_APP_API_NEXT_ELEMENT}`
         )
             .then((res) => res.json())
             .then((data) => setCountryDetails({
@@ -43,6 +46,12 @@ const Home = () => {
     function handleOnchange(e) {
         setCountry(e.target.value)
     }
+
+    const handleCelsiusChange = () => {
+        const celsius = coundtryDetails.farenheit?.current;
+        const converted = (celsius - 32) * 5 / 9;
+        setCelsius(Math.floor(converted) || '');
+    };
 
     return (
         <div className='body'
@@ -72,9 +81,10 @@ const Home = () => {
             <main className="main">
                 <div className="first-main">
                     <div className="first">
-                        <h1>{coundtryDetails.farenheit?.current}° F</h1>
+                        <h1>{celsius}° C</h1>
                         <div className="condition">
                             <span>{coundtryDetails.condition}</span>
+                            <span>{coundtryDetails.farenheit?.current}° F</span>
                             <span>{coundtryDetails.farenheit?.high}° F</span>
                             <span>{coundtryDetails.farenheit?.low}° F</span>
                         </div>

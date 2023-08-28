@@ -18,9 +18,11 @@
             flex-direction: row;
         }
         & .first-main {
+            @include dispaly-col-center;
             & .first {
+                @include display-colum;
                 h1 {
-                    font-size: 50px;
+                    font-size: 60px;
                 }
                 & .condition {
                     @include display-colum;
@@ -40,6 +42,7 @@
             backdrop-filter: blur(1px);
             padding: nth($padding, 1)-2;
             overflow: hidden;
+            @include shadow;
             & .input{
                 width: 260px;
                 font-size: 20px;
