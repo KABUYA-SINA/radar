@@ -18,7 +18,7 @@
             flex-direction: row;
         }
         & .first-main {
-            @include dispaly-col-center;
+            @include dispaly-col-st;
             & .first {
                 @include display-colum;
                 h1 {
@@ -33,6 +33,31 @@
             }
             & h2 {
                 font-size: 24px;
+            }
+            span{
+                @include display-align;
+                gap: nth($gap, 1);
+                & .sc-aXZVg, & .kLSIyR{
+                    @include display-align;
+                }
+            }
+            & .condition-first{
+                color: nth($span, 1)
+            }
+            & .condition-second{
+                color: nth($span, 2)
+            }
+            & .condition-third{
+                color: nth($span, 3)
+            }
+            & .condition-four{
+                color: nth($span, 4)
+            }
+            & .condition-five{
+                color: nth($span, 5)
+            }
+            & .condition-six{
+                color: nth($span, 6)
             }
         }
         & .second-main{

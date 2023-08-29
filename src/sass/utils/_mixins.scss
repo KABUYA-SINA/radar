@@ -29,10 +29,10 @@
     flex-direction: column;
 }
 
-@mixin dispaly-col-center{
+@mixin dispaly-col-st{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 @mixin display-evenly{
