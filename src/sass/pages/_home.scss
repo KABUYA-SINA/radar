@@ -37,6 +37,7 @@
             span{
                 @include display-align;
                 gap: nth($gap, 1);
+                font-weight: 900;
                 & .sc-aXZVg, & .kLSIyR{
                     @include display-align;
                 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TbUserSearch } from 'react-icons/tb';
 import { FaTemperatureArrowUp } from 'react-icons/fa6';
 import { FaTemperatureArrowDown } from 'react-icons/fa6';
@@ -24,16 +24,15 @@ import '../sass/pages/_home.scss';
 const Home = () => {
     const [country, setCountry] = useState('Lyon');
     const [coundtryDetails, setCountryDetails] = useState({})
-    const [initialCountry, setInitialCountry] = useState('Paris')
-    const [celsius, setCelsius] = useState('');
 
-    useEffect(() => {
-        handleCall();
-        handleCelsiusChange();
-    })
-    const handleCall = () => {
+    const handleCall = useCallback(() => {
+
+        if (!country) {
+            alert('the country should not be empty. In addition, it is recommended to use an existing country')
+            return country === 'Paris'
+        }
         fetch(
-            `${process.env.REACT_APP_API_URL}=?${country}:${initialCountry}${process.env.REACT_APP_API_NEXT_ELEMENT}`
+            `${process.env.REACT_APP_API_URL}=${country}${process.env.REACT_APP_API_NEXT_ELEMENT}`
         )
             .then((res) => res.json())
             .then((data) => setCountryDetails({
@@ -44,6 +43,7 @@ const Home = () => {
                 continent: data.location.tz_id,
                 farenheit: {
                     current: data.current.temp_f,
+                    celsius: data.current.temp_c,
                     high: data.forecast.forecastday[0].day.maxtemp_f,
                     low: data.forecast.forecastday[0].day.mintemp_f,
                 },
@@ -52,16 +52,15 @@ const Home = () => {
                 windMph: data.current.wind_mph,
                 windKph: data.current.wind_kph
             }))
-    }
+    }, [country])
+
     function handleOnchange(e) {
         setCountry(e.target.value)
     }
 
-    const handleCelsiusChange = () => {
-        const celsius = coundtryDetails.farenheit?.current;
-        const converted = (celsius - 32) * 5 / 9;
-        setCelsius(Math.floor(converted) || '');
-    };
+    useEffect(() => {
+        handleCall();
+    }, [])
 
     return (
         <div className='body'
@@ -92,7 +91,7 @@ const Home = () => {
             <main className="main">
                 <div className="first-main">
                     <div className="first">
-                        <h1>{celsius}° C</h1>
+                        <h1>{Math.floor(coundtryDetails.farenheit?.celsius)}° C</h1>
                         <div className="condition">
                             <span className="condition-first">
                                 <ShakeRotate
@@ -114,7 +113,7 @@ const Home = () => {
                     <span className="condition-six"><BsWind /> {coundtryDetails?.windMph} mph</span>
                 </div>
                 <div className="second-main">
-                    <input type='search' value={country.toUpperCase()} onChange={handleOnchange} className='input' />
+                    <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' />
                     <TbUserSearch onClick={handleCall} className='btn' />
                 </div>
             </main>
