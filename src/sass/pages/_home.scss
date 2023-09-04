@@ -2,87 +2,87 @@
 @import '../utils/mixins';
 
 .body{
+    @include display-column-betw;
     height: 100vh;
     width: 100%;
-    @include display-column-betw;
     background-size: cover;
     transition-duration: 1s;
     & .main{
-        height: 500px;
-        @include display-evenly;
-        padding: nth($padding, 4);
+        @include display-env;
+        gap: nth($gap, 4);
+        height: 700px;
+        color: $white-color;
         @include mobile{
-            flex-direction: column
+            @include ali-fldir;
         }
         @include tablet{
-            flex-direction: row;
+            @include fldir-end;
         }
         & .first-main {
-            @include dispaly-col-st;
+            @include display-colum;
+            @include mobile{
+                align-items: center;
+            }
+            @include tablet{
+                align-items: flex-start;
+            }
             & .first {
-                @include display-colum;
-                h1 {
-                    font-size: 60px;
+                @include display-align;
+                @include mobile{
+                    flex-direction: column;
+                }
+                @include tablet{
+                    flex-direction: row;
+                    gap: nth($gap, 2);
                 }
                 & .condition {
                     @include display-colum;
-                    span{
-                        font-size: 16px;
+                    @include mobile{
+                        align-items: center;
+                    }
+                    @include tablet{
+                        align-items: flex-start;
+                    }
+                }
+                & .wind {
+                    @include dis-star;
+                    @include mobile {
+                        flex-direction: row;
+                        gap: nth($gap, 2);
+                    }
+                    @include tablet {
+                        flex-direction: column;
+                        gap: 0;
+                    }
+                }
+                span{
+                    gap: nth($gap, 1);
+                    @include display-align;
+                    & .sc-aXZVg, & .kLSIyR{
+                        @include display-align;
                     }
                 }
             }
-            & h2 {
-                font-size: 24px;
-            }
-            span{
-                @include display-align;
-                gap: nth($gap, 1);
-                font-weight: 900;
-                & .sc-aXZVg, & .kLSIyR{
-                    @include display-align;
-                }
-            }
-            & .condition-first{
-                color: nth($span, 1)
-            }
-            & .condition-second{
-                color: nth($span, 2)
-            }
-            & .condition-third{
-                color: nth($span, 3)
-            }
-            & .condition-four{
-                color: nth($span, 4)
-            }
-            & .condition-five{
-                color: nth($span, 5)
-            }
-            & .condition-six{
-                color: nth($span, 6)
-            }
         }
-        & .second-main{
+        & .second-main {
             @include display-align;
             border-radius: 10px;
-            background: $white-color;
+            background: #ffffff7d;
             backdrop-filter: blur(1px);
             padding: nth($padding, 1)-2;
             overflow: hidden;
-            @include shadow;
-            & .input{
+            & .input {
                 width: 260px;
-                font-size: 20px;
                 padding: nth($padding, 1);
-                color: $black-color;
+                color: $white-color;
             }
-            & .btn{
+            & .btn {
                 transform: scale(1);
-                font-size: 30px;
                 cursor: pointer;
             }
             & .btn:hover,
             & .btn:active,
-            & .btn:focus{
+            & .btn:focus {
                 transform: scale(.9);
 
             }

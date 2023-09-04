@@ -5,7 +5,7 @@
     padding: nth($padding, 4);
     & a{
         @include display-row-betw;
-        color: $black-color;
+        color: $white-color;
         @include mobile{
             flex-direction: column;
         }

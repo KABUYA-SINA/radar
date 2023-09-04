@@ -7,8 +7,11 @@ import { TbTemperaturePlus } from 'react-icons/tb';
 import { BsWind } from 'react-icons/bs';
 import { MdNotificationsActive } from 'react-icons/md';
 import { ShakeRotate } from 'reshake';
+import { ErrorBoundary } from "react-error-boundary";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Error from '../pages/Error';
+import Loading from '../components/Loader';
 import sun from '../assets/sun.webp';
 import cloud from '../assets/cloud.webp';
 import rain from '../assets/rain.webp';
@@ -19,17 +22,23 @@ import overcast from '../assets/overcast.webp';
 import light from '../assets/light-rain.webp';
 import drizzle from '../assets/drizzle.webp';
 import '../sass/base/_base.scss';
+import '../sass/base/_home-typo.scss';
 import '../sass/pages/_home.scss';
 
 const Home = () => {
     const [country, setCountry] = useState('Lyon');
     const [coundtryDetails, setCountryDetails] = useState({})
+    const [loading, setLoading] = useState(false)
+
+    function refreshPage() {
+        window.location.reload(true);
+    }
 
     const handleCall = useCallback(() => {
-
+        setLoading(true)
         if (!country) {
             alert('the country should not be empty. In addition, it is recommended to use an existing country')
-            return country === 'Paris'
+            refreshPage()
         }
         fetch(
             `${process.env.REACT_APP_API_URL}=${country}${process.env.REACT_APP_API_NEXT_ELEMENT}`
@@ -52,6 +61,7 @@ const Home = () => {
                 windMph: data.current.wind_mph,
                 windKph: data.current.wind_kph
             }))
+        setLoading(false)
     }, [country])
 
     function handleOnchange(e) {
@@ -63,62 +73,70 @@ const Home = () => {
     }, [])
 
     return (
-        <div className='body'
-            style={
-                coundtryDetails.condition?.includes("Clear") ||
-                    coundtryDetails.condition?.includes("Sunny")
-                    ? { background: `center / cover no-repeat url(${sun})` }
-                    : coundtryDetails.condition?.includes('cloudy')
-                        ? { background: `center / cover no-repeat url(${cloud})` }
-                        : coundtryDetails.condition?.includes('Heavy rain') ||
-                            coundtryDetails.condition?.includes('heavy rain shower')
-                            ? { background: `center / cover no-repeat url(${rain})` }
-                            : coundtryDetails.condition?.includes('Light rain') ||
-                                coundtryDetails.condition?.includes('Patchy rain')
-                                ? { background: `center / cover no-repeat url(${light})` }
-                                : coundtryDetails.condition?.includes('Moderate rain')
-                                    ? { background: `center / cover no-repeat url(${moderate})` }
-                                    : coundtryDetails.condition?.includes('Overcast')
-                                        ? { background: `center / cover no-repeat url(${overcast})` }
-                                        : coundtryDetails.condition?.includes('drizzle')
-                                            ? { background: `center / cover no-repeat url(${drizzle})` }
-                                            : coundtryDetails.condition?.toLowerCase() === ('snow')
-                                                ? { background: `center / cover no-repeat url(${snow})` }
-                                                : { background: `center / cover no-repeat url(${overcastOne})` }
-            }
-        >
-            <Header time={coundtryDetails.time} />
-            <main className="main">
-                <div className="first-main">
-                    <div className="first">
-                        <h1>{Math.floor(coundtryDetails.farenheit?.celsius)}° C</h1>
-                        <div className="condition">
-                            <span className="condition-first">
-                                <ShakeRotate
-                                    fixed={true}
-                                    fixedStop={false}
-                                    freez={false}
-                                >
-                                    <MdNotificationsActive />
-                                </ShakeRotate>
-                                {coundtryDetails.condition?.toLowerCase()}
-                            </span>
-                            <span className="condition-second"><TbTemperaturePlus /> {coundtryDetails.farenheit?.current}° F</span>
-                            <span className="condition-third"><FaTemperatureArrowUp /> {coundtryDetails.farenheit?.high}° F</span>
-                            <span className="condition-four"><FaTemperatureArrowDown /> {coundtryDetails.farenheit?.low}° F</span>
+        <ErrorBoundary FallbackComponent={Error} onReset={() => { }}>
+            {loading ?
+                <Loading aria-label="Loading Spinner" />
+                :
+                <div className='body'
+                    style={
+                        coundtryDetails.condition?.includes("Clear") ||
+                            coundtryDetails.condition?.includes("Sunny")
+                            ? { background: `center / cover no-repeat url(${sun})` }
+                            : coundtryDetails.condition?.includes('cloudy')
+                                ? { background: `center / cover no-repeat url(${cloud})` }
+                                : coundtryDetails.condition?.includes('Heavy rain') ||
+                                    coundtryDetails.condition?.includes('heavy rain shower')
+                                    ? { background: `center / cover no-repeat url(${rain})` }
+                                    : coundtryDetails.condition?.includes('Light rain') ||
+                                        coundtryDetails.condition?.includes('Patchy rain')
+                                        ? { background: `center / cover no-repeat url(${light})` }
+                                        : coundtryDetails.condition?.includes('Moderate rain')
+                                            ? { background: `center / cover no-repeat url(${moderate})` }
+                                            : coundtryDetails.condition?.includes('Overcast')
+                                                ? { background: `center / cover no-repeat url(${overcast})` }
+                                                : coundtryDetails.condition?.includes('drizzle')
+                                                    ? { background: `center / cover no-repeat url(${drizzle})` }
+                                                    : coundtryDetails.condition?.toLowerCase() === ('snow')
+                                                        ? { background: `center / cover no-repeat url(${snow})` }
+                                                        : { background: `center / cover no-repeat url(${overcastOne})` }
+                    }
+                >
+                    <Header time={coundtryDetails.time} />
+                    <main className="main">
+                        <div className="first-main">
+                            <div className="first">
+                                <h1>{Math.floor(coundtryDetails.farenheit?.celsius)}°C</h1>
+                                <div className="condition">
+                                    <span className='condition-heading'>
+                                        <ShakeRotate
+                                            fixed={true}
+                                            fixedStop={false}
+                                            freez={false}
+                                        >
+                                            <MdNotificationsActive />
+                                        </ShakeRotate>
+                                        <p>{coundtryDetails.condition}</p>
+                                    </span>
+                                    <span><TbTemperaturePlus /> {coundtryDetails.farenheit?.current}° F</span>
+                                    <span><FaTemperatureArrowUp /> {coundtryDetails.farenheit?.high}° F</span>
+                                    <span><FaTemperatureArrowDown /> {coundtryDetails.farenheit?.low}° F</span>
+                                </div>
+                                <div className="wind">
+                                    <span><GiWindsock /> {coundtryDetails?.windKph} kph</span>
+                                    <span><BsWind /> {coundtryDetails?.windMph} mph</span>
+                                </div>
+                            </div>
+                            <h2>{coundtryDetails.city}, {coundtryDetails.country?.toUpperCase()}</h2>
                         </div>
-                    </div>
-                    <h2>{coundtryDetails.city} {coundtryDetails.country?.toUpperCase()}</h2>
-                    <span className="condition-five"><GiWindsock /> {coundtryDetails?.windKph} kph</span>
-                    <span className="condition-six"><BsWind /> {coundtryDetails?.windMph} mph</span>
+                        <div className="second-main">
+                            <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' />
+                            <TbUserSearch onClick={handleCall} className='btn' />
+                        </div>
+                    </main>
+                    <Footer continent={coundtryDetails.continent} image={coundtryDetails.image} />
                 </div>
-                <div className="second-main">
-                    <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' />
-                    <TbUserSearch onClick={handleCall} className='btn' />
-                </div>
-            </main>
-            <Footer continent={coundtryDetails.continent} image={coundtryDetails.image} />
-        </div>
+            }
+        </ErrorBoundary>
     )
 }
 

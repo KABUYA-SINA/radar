@@ -14,40 +14,48 @@
     box-shadow: 0px 5px 10px #999;
 }
 
-@mixin display-align{
+@mixin display-align {
     display: flex;
     align-items: center;
 }
 
-@mixin display-end{
+@mixin dis-star {
+    display: flex;
+    align-items: flex-start;
+}
+
+@mixin display-end {
     display: flex;
     justify-content: flex-end;
 }
 
-@mixin display-colum{
+@mixin display-colum {
     display: flex;
     flex-direction: column;
 }
 
-@mixin dispaly-col-st{
+@mixin display-env {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-@mixin display-evenly{
-    display: flex;
-    align-items: center;
     justify-content: space-evenly;
 }
 
-@mixin display-row-betw{
+@mixin ali-fldir {
+    flex-direction: column;
+    align-items: center;
+}
+
+@mixin fldir-end {
+    flex-direction: row;
+    align-items: flex-end
+}
+
+@mixin display-row-betw {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-@mixin display-column-betw{
+@mixin display-column-betw {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

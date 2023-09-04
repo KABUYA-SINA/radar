@@ -2,11 +2,12 @@
 @import '../utils/mixins';
 @import '../animations/anime';
 
-.loading {
-    height: 268px;
+.loader {
+    @include display-all;
     position: relative;
+    height: 100vh;
 }
-.loading::after {
+.loader::after {
     content: " ";
     display: block;
     width: 50px;

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import '../sass/pages/_loader.scss';
 
 const Loader = () => {
 

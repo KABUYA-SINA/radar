@@ -1,0 +1,37 @@
+@import '../utils/variables';
+@import  '../utils/mixins';
+
+.body{
+    & .main {
+        & .first{
+            @include mobile{
+                line-height: 1.5;
+            }
+            @include tablet{
+                line-height: 22px;
+            }
+        }
+        h1 {
+            font-size: 120px;
+        }
+        & h2 {
+            font-size: 35px;
+            text-align: center;
+        }
+        span{
+            font-size: 16px;
+            font-weight: 900;
+            & > p {
+                font-size: 20px;
+            }
+        }
+        & .second-main{
+            & .input {
+                font-size: 16px;
+            }
+        }
+        & .btn {
+            font-size: 30px;
+        }
+    }
+}
