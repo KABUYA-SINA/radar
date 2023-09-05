@@ -3,6 +3,7 @@
 
 .header{
     padding: nth($padding, 4);
+    background: linear-gradient(0deg, transparent 0%, $black-color 800%);
     & a{
         @include display-row-betw;
         color: $white-color;

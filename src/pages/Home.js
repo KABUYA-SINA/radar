@@ -115,7 +115,7 @@ const Home = () => {
                                         >
                                             <MdNotificationsActive />
                                         </ShakeRotate>
-                                        <p>{coundtryDetails.condition}</p>
+                                        <span className='para'>{coundtryDetails.condition}</span>
                                     </span>
                                     <span><TbTemperaturePlus /> {coundtryDetails.farenheit?.current}° F</span>
                                     <span><FaTemperatureArrowUp /> {coundtryDetails.farenheit?.high}° F</span>

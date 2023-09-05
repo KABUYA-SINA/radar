@@ -10,8 +10,9 @@
     & .main{
         @include display-env;
         gap: nth($gap, 4);
-        height: 700px;
+        height: 100%;
         color: $white-color;
+        background: linear-gradient(180deg, transparent 0%, $black-color 800%);
         @include mobile{
             @include ali-fldir;
         }
