@@ -9,6 +9,7 @@ function Roads() {
         <AnimatePresence >
             <Routes >
                 <Route path="/" element={<Home />} />
+                <Route path="/radar" element={<Home />} />
                 <Route path='*' element={<Error />} />
             </Routes>
         </AnimatePresence>
