@@ -27,8 +27,10 @@ import '../sass/pages/_home.scss';
 
 const Home = () => {
     const [country, setCountry] = useState('Lyon');
-    const [coundtryDetails, setCountryDetails] = useState({})
+    const [countryDetails, setCountryDetails] = useState({})
     const [loading, setLoading] = useState(false)
+    let allNumbers = /^[0-9\b]+$/;
+    let special = /[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/g
 
     function refreshPage() {
         window.location.reload(true);
@@ -36,6 +38,10 @@ const Home = () => {
 
     const handleCall = useCallback(() => {
         setLoading(true)
+        if (allNumbers.test(country) || special.test(country)) {
+            alert("Numbers and special characters are not allowed")
+            refreshPage()
+        }
         if (!country) {
             alert('the country should not be empty. In addition, it is recommended to use an existing country')
             refreshPage()
@@ -60,7 +66,7 @@ const Home = () => {
                 image: data.current.condition.icon,
                 windMph: data.current.wind_mph,
                 windKph: data.current.wind_kph
-            }))
+            })).catch(error => { console.log(error) });
         setLoading(false)
     }, [country])
 
@@ -79,33 +85,33 @@ const Home = () => {
                 :
                 <div className='body'
                     style={
-                        coundtryDetails.condition?.includes("Clear") ||
-                            coundtryDetails.condition?.includes("Sunny")
+                        countryDetails.condition?.includes("Clear") ||
+                            countryDetails.condition?.includes("Sunny")
                             ? { background: `center / cover no-repeat url(${sun})` }
-                            : coundtryDetails.condition?.includes('cloudy')
+                            : countryDetails.condition?.includes('cloudy')
                                 ? { background: `center / cover no-repeat url(${cloud})` }
-                                : coundtryDetails.condition?.includes('Heavy rain') ||
-                                    coundtryDetails.condition?.includes('heavy rain shower')
+                                : countryDetails.condition?.includes('Heavy rain') ||
+                                    countryDetails.condition?.includes('heavy rain shower')
                                     ? { background: `center / cover no-repeat url(${rain})` }
-                                    : coundtryDetails.condition?.includes('Light rain') ||
-                                        coundtryDetails.condition?.includes('Patchy rain')
+                                    : countryDetails.condition?.includes('Light rain') ||
+                                        countryDetails.condition?.includes('Patchy rain')
                                         ? { background: `center / cover no-repeat url(${light})` }
-                                        : coundtryDetails.condition?.includes('Moderate rain')
+                                        : countryDetails.condition?.includes('Moderate rain')
                                             ? { background: `center / cover no-repeat url(${moderate})` }
-                                            : coundtryDetails.condition?.includes('Overcast')
+                                            : countryDetails.condition?.includes('Overcast')
                                                 ? { background: `center / cover no-repeat url(${overcast})` }
-                                                : coundtryDetails.condition?.includes('drizzle')
+                                                : countryDetails.condition?.includes('drizzle')
                                                     ? { background: `center / cover no-repeat url(${drizzle})` }
-                                                    : coundtryDetails.condition?.toLowerCase() === ('snow')
+                                                    : countryDetails.condition?.toLowerCase() === ('snow')
                                                         ? { background: `center / cover no-repeat url(${snow})` }
                                                         : { background: `center / cover no-repeat url(${overcastOne})` }
                     }
                 >
-                    <Header time={coundtryDetails.time} />
+                    <Header time={countryDetails.time} />
                     <main className="main">
                         <div className="first-main">
                             <div className="first">
-                                <h1>{Math.floor(coundtryDetails.farenheit?.celsius)}°C</h1>
+                                <h1>{Math.floor(countryDetails.farenheit?.celsius)}°C</h1>
                                 <div className="condition">
                                     <span className='condition-heading'>
                                         <ShakeRotate
@@ -115,25 +121,25 @@ const Home = () => {
                                         >
                                             <MdNotificationsActive />
                                         </ShakeRotate>
-                                        <span className='para'>{coundtryDetails.condition}</span>
+                                        <span className='para'>{countryDetails.condition}</span>
                                     </span>
-                                    <span><TbTemperaturePlus /> {coundtryDetails.farenheit?.current}° F</span>
-                                    <span><FaTemperatureArrowUp /> {coundtryDetails.farenheit?.high}° F</span>
-                                    <span><FaTemperatureArrowDown /> {coundtryDetails.farenheit?.low}° F</span>
+                                    <span><TbTemperaturePlus /> {countryDetails.farenheit?.current}° F</span>
+                                    <span><FaTemperatureArrowUp /> {countryDetails.farenheit?.high}° F</span>
+                                    <span><FaTemperatureArrowDown /> {countryDetails.farenheit?.low}° F</span>
                                 </div>
                                 <div className="wind">
-                                    <span><GiWindsock /> {coundtryDetails?.windKph} kph</span>
-                                    <span><BsWind /> {coundtryDetails?.windMph} mph</span>
+                                    <span><GiWindsock /> {countryDetails?.windKph} kph</span>
+                                    <span><BsWind /> {countryDetails?.windMph} mph</span>
                                 </div>
                             </div>
-                            <h2>{coundtryDetails.city}, {coundtryDetails.country?.toUpperCase()}</h2>
+                            <h2>{countryDetails.city}, {countryDetails.country?.toUpperCase()}</h2>
                         </div>
                         <div className="second-main">
-                            <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' />
+                            <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' maxLength={17} />
                             <TbUserSearch onClick={handleCall} className='btn' />
                         </div>
                     </main>
-                    <Footer continent={coundtryDetails.continent} image={coundtryDetails.image} />
+                    <Footer continent={countryDetails.continent} image={countryDetails.image} />
                 </div>
             }
         </ErrorBoundary>
