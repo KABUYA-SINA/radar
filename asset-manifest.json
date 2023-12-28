@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radar/static/css/main.d1c0657d.css",
-    "main.js": "/radar/static/js/main.4f260824.js",
+    "main.css": "/radar/static/css/main.f5b3b6c3.css",
+    "main.js": "/radar/static/js/main.b7ddf7c4.js",
     "static/media/rain.webp": "/radar/static/media/rain.8e9dfc027954ba0cf3d6.webp",
     "static/media/snow.webp": "/radar/static/media/snow.65f7f843f352560033a8.webp",
     "static/media/drizzle.webp": "/radar/static/media/drizzle.63a618b0be1a846b1e01.webp",
@@ -12,11 +12,11 @@
     "static/media/overcast-one.webp": "/radar/static/media/overcast-one.465895d1e7f0ef3c2c80.webp",
     "static/media/overcast.webp": "/radar/static/media/overcast.0f0fd47799cbf843d515.webp",
     "index.html": "/radar/index.html",
-    "main.d1c0657d.css.map": "/radar/static/css/main.d1c0657d.css.map",
-    "main.4f260824.js.map": "/radar/static/js/main.4f260824.js.map"
+    "main.f5b3b6c3.css.map": "/radar/static/css/main.f5b3b6c3.css.map",
+    "main.b7ddf7c4.js.map": "/radar/static/js/main.b7ddf7c4.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1c0657d.css",
-    "static/js/main.4f260824.js"
+    "static/css/main.f5b3b6c3.css",
+    "static/js/main.b7ddf7c4.js"
   ]
 }
