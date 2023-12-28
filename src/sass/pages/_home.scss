@@ -7,50 +7,44 @@
     width: 100%;
     background-size: cover;
     transition-duration: 1s;
+    color: $white-color;
     & .main{
         @include display-env;
         gap: nth($gap, 4);
         height: 100%;
-        color: $white-color;
         background: linear-gradient(180deg, transparent 0%, $black-color 800%);
-        @include mobile{
-            @include ali-fldir;
-        }
+        @include ali-fldir;
         @include tablet{
             @include fldir-end;
         }
+        & .loader{
+            height: inherit;
+            justify-content: flex-end
+        }
         & .first-main {
             @include display-colum;
-            @include mobile{
-                align-items: center;
-            }
+            align-items: center;
             @include tablet{
                 align-items: flex-start;
             }
             & .first {
                 @include display-align;
-                @include mobile{
-                    flex-direction: column;
-                }
+                flex-direction: column;
                 @include tablet{
                     flex-direction: row;
                     gap: nth($gap, 2);
                 }
                 & .condition {
                     @include display-colum;
-                    @include mobile{
-                        align-items: center;
-                    }
+                    align-items: center;
                     @include tablet{
                         align-items: flex-start;
                     }
                 }
                 & .wind {
                     @include dis-star;
-                    @include mobile {
-                        flex-direction: row;
-                        gap: nth($gap, 2);
-                    }
+                    flex-direction: row;
+                    gap: nth($gap, 2);
                     @include tablet {
                         flex-direction: column;
                         gap: 0;
@@ -75,11 +69,12 @@
             & .input {
                 width: 260px;
                 padding: nth($padding, 1);
-                color: $white-color;
+                color: inherit;
             }
             & .btn {
                 transform: scale(1);
                 cursor: pointer;
+                color: inherit;
             }
             & .btn:hover,
             & .btn:active,

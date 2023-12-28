@@ -5,10 +5,7 @@
     padding: nth($padding, 4);
     background: linear-gradient(0deg, transparent 0%, $black-color 750%);
     @include display-row-betw;
-    color: $white-color;
-    @include mobile {
-        flex-direction: column;
-    }
+    flex-direction: column;
     @include tablet {
         flex-direction: row;
     }

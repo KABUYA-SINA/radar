@@ -6,10 +6,7 @@
     background: linear-gradient(0deg, transparent 0%, $black-color 800%);
     & a{
         @include display-row-betw;
-        color: $white-color;
-        @include mobile{
-            flex-direction: column;
-        }
+        flex-direction: column;
         @include tablet{
             flex-direction: row;
         }
@@ -34,4 +31,7 @@
 
         }
     }
+}
+a:-webkit-any-link{
+    color: inherit;
 }

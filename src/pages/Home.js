@@ -6,7 +6,6 @@ import { GiWindsock } from 'react-icons/gi';
 import { TbTemperaturePlus } from 'react-icons/tb';
 import { BsWind } from 'react-icons/bs';
 import { MdNotificationsActive } from 'react-icons/md';
-import { ShakeRotate } from 'reshake';
 import { ErrorBoundary } from "react-error-boundary";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -29,6 +28,7 @@ const Home = () => {
     const [country, setCountry] = useState('Lyon');
     const [countryDetails, setCountryDetails] = useState({})
     const [loading, setLoading] = useState(false)
+    const [loaderData, setLoaderData] = useState(false)
     let allNumbers = /^[0-9\b]+$/;
     let special = /[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/g
 
@@ -38,6 +38,7 @@ const Home = () => {
 
     const handleCall = useCallback(() => {
         setLoading(true)
+        setLoaderData(true)
         if (allNumbers.test(country) || special.test(country)) {
             alert("Numbers and special characters are not allowed")
             refreshPage()
@@ -68,6 +69,10 @@ const Home = () => {
                 windKph: data.current.wind_kph
             })).catch(error => { console.log(error) });
         setLoading(false)
+        const loader = setTimeout(() => {
+            setLoaderData(false);
+        }, 1500);
+        return () => clearTimeout(loader)
     }, [country])
 
     function handleOnchange(e) {
@@ -97,45 +102,43 @@ const Home = () => {
                                         countryDetails.condition?.includes('Patchy rain')
                                         ? { background: `center / cover no-repeat url(${light})` }
                                         : countryDetails.condition?.includes('Moderate rain')
-                                            ? { background: `center / cover no-repeat url(${moderate})` }
+                                            ? { background: `center / cover no-repeat url(${moderate})`, color: `#A47E3B` }
                                             : countryDetails.condition?.includes('Overcast')
                                                 ? { background: `center / cover no-repeat url(${overcast})` }
                                                 : countryDetails.condition?.includes('drizzle')
                                                     ? { background: `center / cover no-repeat url(${drizzle})` }
-                                                    : countryDetails.condition?.toLowerCase() === ('snow')
-                                                        ? { background: `center / cover no-repeat url(${snow})` }
+                                                    : countryDetails.condition?.toLowerCase() === ('snow') ||
+                                                        countryDetails.condition?.includes('Light snow')
+                                                        ? { background: `center / cover no-repeat url(${snow})`, color: `#03224c` }
                                                         : { background: `center / cover no-repeat url(${overcastOne})` }
                     }
                 >
                     <Header time={countryDetails.time} />
                     <main className="main">
-                        <div className="first-main">
-                            <div className="first">
-                                <h1>{Math.floor(countryDetails.farenheit?.celsius)}°C</h1>
-                                <div className="condition">
-                                    <span className='condition-heading'>
-                                        <ShakeRotate
-                                            fixed={true}
-                                            fixedStop={false}
-                                            freez={false}
-                                        >
+                        {loaderData ?
+                            <Loading aria-label="Loading Spinner" />
+                            : <div className="first-main">
+                                <div className="first">
+                                    <h1>{Math.floor(countryDetails.farenheit?.celsius)}°C</h1>
+                                    <div className="condition">
+                                        <span className='condition-heading'>
                                             <MdNotificationsActive />
-                                        </ShakeRotate>
-                                        <span className='para'>{countryDetails.condition}</span>
-                                    </span>
-                                    <span><TbTemperaturePlus /> {countryDetails.farenheit?.current}° F</span>
-                                    <span><FaTemperatureArrowUp /> {countryDetails.farenheit?.high}° F</span>
-                                    <span><FaTemperatureArrowDown /> {countryDetails.farenheit?.low}° F</span>
+                                            <span className='para'>{countryDetails.condition}</span>
+                                        </span>
+                                        <span><TbTemperaturePlus /> {Math.floor(countryDetails.farenheit?.current)}° F</span>
+                                        <span><FaTemperatureArrowUp /> {Math.floor((countryDetails.farenheit?.high - 32) * 5 / 9)}° C</span>
+                                        <span><FaTemperatureArrowDown /> {Math.floor((countryDetails.farenheit?.low - 32) * 5 / 9)}° C</span>
+                                    </div>
+                                    <div className="wind">
+                                        <span><GiWindsock /> {Math.floor(countryDetails?.windKph)} kph</span>
+                                        <span><BsWind /> {Math.floor(countryDetails?.windMph)} mph</span>
+                                    </div>
                                 </div>
-                                <div className="wind">
-                                    <span><GiWindsock /> {countryDetails?.windKph} kph</span>
-                                    <span><BsWind /> {countryDetails?.windMph} mph</span>
-                                </div>
+                                <h2>{countryDetails.city}, {countryDetails.country?.toUpperCase()}</h2>
                             </div>
-                            <h2>{countryDetails.city}, {countryDetails.country?.toUpperCase()}</h2>
-                        </div>
+                        }
                         <div className="second-main">
-                            <input type='search' value={country.toUpperCase()} onChange={handleOnchange} placeholder={'country'} className='input' maxLength={17} />
+                            <input type='search' value={country.charAt(0).toUpperCase() + country.slice(1)} onChange={handleOnchange} placeholder={'country'} className='input' maxLength={17} />
                             <TbUserSearch onClick={handleCall} className='btn' />
                         </div>
                     </main>
